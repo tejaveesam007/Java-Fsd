@@ -1,0 +1,25 @@
+public class ConstructorVerification {
+
+    public ConstructorVerification() {
+        System.out.println("Default Constructor");
+    }
+
+    public ConstructorVerification(String message) {
+        System.out.println("Parameterized Constructor: " + message);
+    }
+
+    public ConstructorVerification(int value) {
+        this("Chained Constructor");
+        System.out.println("Constructor with int value: " + value);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Creating objects with different constructors:");
+
+        ConstructorVerification obj1 = new ConstructorVerification();
+
+        ConstructorVerification obj2 = new ConstructorVerification("Hello!");
+
+        ConstructorVerification obj3 = new ConstructorVerification(42);
+    }
+}
