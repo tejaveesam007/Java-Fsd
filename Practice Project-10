@@ -1,0 +1,36 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class RegexVerification {
+
+    public static void main(String[] args) {
+
+        String text1 = "The quick brown fox jumps over the lazy dog.";
+        String pattern1 = "fox";
+
+        Pattern p1 = Pattern.compile(pattern1);
+        Matcher m1 = p1.matcher(text1);
+
+        System.out.println("Example 1:");
+        System.out.println("Text: " + text1);
+        System.out.println("Pattern: " + pattern1);
+        System.out.println("Matches? " + m1.find());
+        System.out.println();
+
+        String text2 = "John Doe, Jane Doe, Jim Smith";
+        String pattern2 = "(\\w+)\\s(\\w+)";
+
+        Pattern p2 = Pattern.compile(pattern2);
+        Matcher m2 = p2.matcher(text2);
+
+        System.out.println("Example 2:");
+        System.out.println("Text: " + text2);
+        System.out.println("Pattern: " + pattern2);
+
+        while (m2.find()) {
+            System.out.println("Full match: " + m2.group(0));
+            System.out.println("First name: " + m2.group(1));
+            System.out.println("Last name: " + m2.group(2));
+        }
+    }
+}
