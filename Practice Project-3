@@ -1,0 +1,46 @@
+public class MethodVerification {
+
+    public void simpleMethod() {
+        System.out.println("Executing simpleMethod");
+    }
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    void packagePrivateMethod() {
+        System.out.println("Executing packagePrivateMethod");
+    }
+
+    public static void staticMethod() {
+        System.out.println("Executing staticMethod");
+    }
+
+    public static void main(String[] args) {
+        MethodVerification obj = new MethodVerification();
+
+        System.out.println("Calling methods using the instance:");
+
+        obj.simpleMethod();
+
+        int result = obj.add(5, 7);
+        System.out.println("Result of add method: " + result);
+
+        obj.packagePrivateMethod();
+
+        MethodVerification.staticMethod();
+
+        System.out.println("\nCalling methods in a static context:");
+
+        staticMethod();
+
+        MethodVerification anotherObj = new MethodVerification();
+
+        anotherObj.simpleMethod();
+
+        int anotherResult = anotherObj.add(10, 15);
+        System.out.println("Result of another add method: " + anotherResult);
+
+        anotherObj.packagePrivateMethod();
+    }
+}
