@@ -1,0 +1,46 @@
+public class AccessModifierExample {
+
+    public int publicField = 10;
+
+    protected int protectedField = 20;
+
+    int defaultField = 30;
+
+    private int privateField = 40;
+
+    public AccessModifierExample() {
+        System.out.println("Public constructor");
+    }
+
+    protected void protectedMethod() {
+        System.out.println("Protected method");
+    }
+
+    void defaultMethod() {
+        System.out.println("Default method");
+    }
+
+    private void privateMethod() {
+        System.out.println("Private method");
+    }
+
+    public void publicMethod() {
+        System.out.println("Public method");
+    }
+
+    public static void main(String[] args) {
+        AccessModifierExample example = new AccessModifierExample();
+
+        System.out.println("Accessing fields:");
+        System.out.println("Public field: " + example.publicField);
+        System.out.println("Protected field: " + example.protectedField);
+        System.out.println("Default field: " + example.defaultField);
+        System.out.println("Private field: " + example.privateField);
+
+        System.out.println("\nAccessing methods:");
+        example.publicMethod();
+        example.protectedMethod();
+        example.defaultMethod();
+        example.privateMethod();
+    }
+}
