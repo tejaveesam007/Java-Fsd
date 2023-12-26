@@ -1,0 +1,16 @@
+public class InnerClassesVerification {
+
+    class InnerClass {
+        public void display() {
+            System.out.println("Inside the member inner class");
+        }
+    }
+
+    public static void main(String[] args) {
+        InnerClassesVerification outerObj = new InnerClassesVerification();
+
+        InnerClass innerObj = outerObj.new InnerClass();
+
+        innerObj.display();
+    }
+}
