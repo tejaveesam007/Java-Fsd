@@ -1,0 +1,43 @@
+class CustomException extends Exception {
+    public CustomException(String message) {
+        super(message);
+    }
+}
+
+public class ExceptionHandlingExample {
+    public static void methodWithCheckedException() throws CustomException {
+        System.out.println("Inside methodWithCheckedException");
+        throw new CustomException("This is a custom checked exception.");
+    }
+
+    public static void methodWithUncheckedException() {
+        System.out.println("Inside methodWithUncheckedException");
+        throw new NullPointerException("This is a custom unchecked exception.");
+    }
+
+    public static void main(String[] args) {
+        try {
+            methodWithCheckedException();
+        } catch (CustomException e) {
+            System.out.println("Caught CustomException: " + e.getMessage());
+        } finally {
+            System.out.println("Executing finally block for checked exception");
+        }
+
+        try {
+            methodWithUncheckedException();
+        } catch (NullPointerException e) {
+            System.out.println("Caught NullPointerException: " + e.getMessage());
+        } finally {
+            System.out.println("Executing finally block for unchecked exception");
+        }
+
+        try {
+            throw new RuntimeException("This is a manually thrown runtime exception.");
+        } catch (RuntimeException e) {
+            System.out.println("Caught RuntimeException: " + e.getMessage());
+        } finally {
+            System.out.println("Executing finally block for manually thrown exception");
+        }
+    }
+}
