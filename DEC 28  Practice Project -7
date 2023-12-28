@@ -1,0 +1,77 @@
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.io.IOException;
+import java.util.List;
+
+public class FileOperationsDemo {
+    public static void main(String[] args) {
+        String filePath = "example.txt";
+
+         createFile(filePath);
+
+         writeToFile(filePath, "Hello, World!");
+
+         readFromFile(filePath);
+
+         updateFile(filePath, "Updated content!");
+
+         readFromFile(filePath);
+
+         deleteFile(filePath);
+    }
+
+    private static void createFile(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            Files.createFile(path);
+            System.out.println("File created: " + path.toAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error creating file: " + e.getMessage());
+        }
+    }
+
+    private static void writeToFile(String filePath, String content) {
+        try {
+            Path path = Paths.get(filePath);
+            Files.write(path, content.getBytes(), StandardOpenOption.WRITE);
+            System.out.println("Data written to the file.");
+        } catch (IOException e) {
+            System.err.println("Error writing to the file: " + e.getMessage());
+        }
+    }
+
+    private static void readFromFile(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            List<String> lines = Files.readAllLines(path);
+            System.out.println("Content read from the file:");
+            for (String line : lines) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading from the file: " + e.getMessage());
+        }
+    }
+
+    private static void updateFile(String filePath, String newContent) {
+        try {
+            Path path = Paths.get(filePath);
+            Files.write(path, newContent.getBytes(), StandardOpenOption.WRITE);
+            System.out.println("File updated with new content.");
+        } catch (IOException e) {
+            System.err.println("Error updating the file: " + e.getMessage());
+        }
+    }
+
+    private static void deleteFile(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            Files.delete(path);
+            System.out.println("File deleted: " + path.toAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error deleting the file: " + e.getMessage());
+        }
+    }
+}
