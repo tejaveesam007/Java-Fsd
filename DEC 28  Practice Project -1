@@ -1,0 +1,30 @@
+class MyThread extends Thread {
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(Thread.currentThread().getId() + " Value " + i);
+        }
+    }
+}
+
+class MyRunnable implements Runnable {
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(Thread.currentThread().getId() + " Value " + i);
+        }
+    }
+}
+
+public class ThreadExample {
+    public static void main(String args[]) {
+        MyThread thread1 = new MyThread();
+        MyThread thread2 = new MyThread();
+
+        Thread runnableThread1 = new Thread(new MyRunnable());
+        Thread runnableThread2 = new Thread(new MyRunnable());
+
+        thread1.start();
+        thread2.start();
+        runnableThread1.start();
+        runnableThread2.start();
+    }
+}
