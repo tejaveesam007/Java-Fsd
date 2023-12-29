@@ -1,0 +1,81 @@
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class SinglyLinkedList {
+    Node head;
+
+    SinglyLinkedList() {
+        this.head = null;
+    }
+
+    void insert(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+    }
+
+    void display() {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    void delete(int key) {
+        Node temp = head;
+        Node prev = null;
+
+        if (temp != null && temp.data == key) {
+            head = temp.next;
+            return;
+        }
+
+        while (temp != null && temp.data != key) {
+            prev = temp;
+            temp = temp.next;
+        }
+
+        if (temp == null) {
+            System.out.println("Key not found in the linked list.");
+            return;
+        }
+
+        prev.next = temp.next;
+    }
+}
+
+public class DeleteKeyInLinkedList {
+    public static void main(String[] args) {
+        SinglyLinkedList linkedList = new SinglyLinkedList();
+
+        linkedList.insert(1);
+        linkedList.insert(2);
+        linkedList.insert(3);
+        linkedList.insert(4);
+        linkedList.insert(5);
+
+        System.out.println("Original linked list:");
+        linkedList.display();
+
+        linkedList.delete(3);
+
+        System.out.println("Linked list after deleting the first occurrence of key 3:");
+        linkedList.display();
+    }
+}
