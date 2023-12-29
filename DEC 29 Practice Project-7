@@ -1,0 +1,69 @@
+class Node {
+    int data;
+    Node next;
+    Node prev;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+        this.prev = null;
+    }
+}
+
+class DoublyLinkedList {
+    Node head;
+
+    void insert(int newData) {
+        Node newNode = new Node(newData);
+
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node last = head;
+            while (last.next != null) {
+                last = last.next;
+            }
+            last.next = newNode;
+            newNode.prev = last;
+        }
+    }
+
+    void traverseForward() {
+        System.out.println("Doubly linked list (Forward):");
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    void traverseBackward() {
+        System.out.println("Doubly linked list (Backward):");
+        Node last = head;
+        while (last.next != null) {
+            last = last.next;
+        }
+
+        while (last != null) {
+            System.out.print(last.data + " ");
+            last = last.prev;
+        }
+        System.out.println();
+    }
+}
+
+public class DoublyLinkedListTraversal {
+    public static void main(String[] args) {
+        DoublyLinkedList doublyList = new DoublyLinkedList();
+
+        doublyList.insert(10);
+        doublyList.insert(20);
+        doublyList.insert(30);
+        doublyList.insert(40);
+
+        doublyList.traverseForward();
+
+        doublyList.traverseBackward();
+    }
+}
