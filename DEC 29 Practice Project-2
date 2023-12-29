@@ -1,0 +1,63 @@
+class SharedResource {
+    boolean flag = false;
+}
+
+class SleepThread extends Thread {
+    private SharedResource sharedResource;
+
+    SleepThread(SharedResource sharedResource) {
+        this.sharedResource = sharedResource;
+    }
+
+    public void run() {
+        try {
+            Thread.sleep(1000);
+            System.out.println("SleepThread woke up after sleeping for 1 second.");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class WaitThread extends Thread {
+    private SharedResource sharedResource;
+
+    WaitThread(SharedResource sharedResource) {
+        this.sharedResource = sharedResource;
+    }
+
+    public void run() {
+        synchronized (sharedResource) {
+            try {
+                System.out.println("WaitThread is waiting...");
+                sharedResource.wait();
+                System.out.println("WaitThread is notified and resumed execution.");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+public class SleepAndWaitExample {
+    public static void main(String[] args) {
+        SharedResource sharedResource = new SharedResource();
+
+        SleepThread sleepThread = new SleepThread(sharedResource);
+        WaitThread waitThread = new WaitThread(sharedResource);
+
+        sleepThread.start();
+        waitThread.start();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        synchronized (sharedResource) {
+            System.out.println("Main thread notifying waiting thread.");
+            sharedResource.notify();
+        }
+    }
+}
