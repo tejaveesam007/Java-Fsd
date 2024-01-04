@@ -1,0 +1,48 @@
+public class ExponentialSearch {
+
+    public static int exponentialSearch(int[] array, int target) {
+         if (array[0] == target) {
+            return 0;
+        }
+
+         int i = 1;
+        while (i < array.length && array[i] <= target) {
+            i *= 2;
+        }
+
+         return binarySearch(array, target, i / 2, Math.min(i, array.length - 1));
+    }
+
+    private static int binarySearch(int[] array, int target, int left, int right) {
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+             if (array[mid] == target) {
+                return mid;
+            }
+
+             else if (array[mid] < target) {
+                left = mid + 1;
+            }
+
+             else {
+                right = mid - 1;
+            }
+        }
+
+         return -1;
+    }
+
+    public static void main(String[] args) {
+         int[] array = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
+        int target = 12;
+
+         int result = exponentialSearch(array, target);
+
+           if (result != -1) {
+            System.out.println("Element " + target + " found at index " + result);
+        } else {
+            System.out.println("Element " + target + " not found in the array");
+        }
+    }
+}
