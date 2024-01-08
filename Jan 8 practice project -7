@@ -1,0 +1,54 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@WebServlet("/SessionTrackingURLRewriteServlet")
+public class SessionTrackingURLRewriteServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Get the current session or create a new one if it doesn't exist
+        HttpSession session = request.getSession(true);
+
+        // Get the session ID
+        String sessionId = session.getId();
+
+        // Get the value of the counter from the session or initialize it to 1
+        Integer counter = (Integer) session.getAttribute("counter");
+        if (counter == null) {
+            counter = 1;
+        } else {
+            counter++;
+        }
+
+        // Set the counter value back to the session
+        session.setAttribute("counter", counter);
+
+        // Encode the URL by appending the session ID as a parameter
+        String encodedURL = response.encodeURL("SessionTrackingURLRewriteServlet");
+
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Session Tracking with URL Rewrite Demo</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h2>Session Tracking with URL Rewrite Demo</h2>");
+            out.println("<p>Session ID: " + sessionId + "</p>");
+            out.println("<p>Number of Visits: " + counter + "</p>");
+            out.println("<p><a href='" + encodedURL + "'>Increment Counter</a></p>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+}
