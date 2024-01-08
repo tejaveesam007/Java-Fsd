@@ -1,0 +1,58 @@
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+
+@WebServlet("/MyServletInterface")
+public class MyServletInterface extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
+        response.getWriter().println("<html>");
+        response.getWriter().println("<head>");
+        response.getWriter().println("<title>Servlet Interface Demo</title>");
+        response.getWriter().println("</head>");
+        response.getWriter().println("<body>");
+        response.getWriter().println("<h2>Hello from MyServletInterface!</h2>");
+        response.getWriter().println("<p>This servlet implements the Servlet interface.</p>");
+        response.getWriter().println("</body>");
+        response.getWriter().println("</html>");
+    }
+}
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
+
+@WebServlet("/MyServletClass")
+public class MyServletClass extends GenericServlet {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
+        PrintWriter out = response.getWriter();
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Servlet Class Demo</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h2>Hello from MyServletClass!</h2>");
+        out.println("<p>This servlet extends the GenericServlet class.</p>");
+        out.println("</body>");
+        out.println("</html>");
+    }
+}
