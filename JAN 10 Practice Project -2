@@ -1,0 +1,54 @@
+CREATE DATABASE exampledb;
+USE exampledb;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL
+);
+
+
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class JdbcExample {
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/exampledb";
+    private static final String JDBC_USER = "your_username";
+    private static final String JDBC_PASSWORD = "your_password";
+
+    public static void main(String[] args) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
+            System.out.println("Connected to the database!");
+
+            // Insert a user into the 'users' table
+            insertUser(connection, "john_doe", "password123");
+
+            // Retrieve and print all users
+            System.out.println("All users in the 'users' table:");
+            getAllUsers(connection);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void insertUser(Connection connection, String username, String password) throws SQLException {
+        // Insert user code
+    }
+
+    private static void getAllUsers(Connection connection) throws SQLException {
+        // Retrieve all users code
+    }
+}
