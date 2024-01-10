@@ -1,0 +1,62 @@
+DELIMITER //
+
+CREATE PROCEDURE insert_user(IN p_username VARCHAR(50), IN p_password VARCHAR(50))
+BEGIN
+    INSERT INTO users (username, password) VALUES (p_username, p_password);
+END //
+
+DELIMITER ;
+
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class JdbcStoredProcDemo {
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/exampledb";
+    private static final String JDBC_USER = "your_username";
+    private static final String JDBC_PASSWORD = "your_password";
+
+    public static void main(String[] args) {
+        try {
+            // Load the JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Establish a connection
+            try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
+                System.out.println("Connected to the database!");
+
+                // Call the stored procedure
+                callStoredProcedure(connection, "new_user", "secure_password");
+
+            } catch (SQLException e) {
+                handleSQLException(e);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void callStoredProcedure(Connection connection, String username, String password) {
+        try {
+            // Prepare and execute the stored procedure call
+            String callStmt = "{call insert_user(?, ?)}";
+            try (PreparedStatement preparedStatement = connection.prepareCall(callStmt)) {
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
+                preparedStatement.execute();
+                System.out.println("Stored procedure executed successfully!");
+            }
+        } catch (SQLException e) {
+            handleSQLException(e);
+        }
+    }
+
+    private static void handleSQLException(SQLException e) {
+        System.err.println("SQLException: " + e.getMessage());
+        System.err.println("SQLState: " + e.getSQLState());
+        System.err.println("VendorError: " + e.getErrorCode());
+    }
+}
