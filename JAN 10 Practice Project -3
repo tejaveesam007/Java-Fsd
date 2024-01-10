@@ -1,0 +1,46 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JdbcDemo {
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/exampledb";
+    private static final String JDBC_USER = "your_username";
+    private static final String JDBC_PASSWORD = "your_password";
+
+    public static void main(String[] args) {
+        try {
+            // Step 1: Load the JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Step 2: Establish a connection
+            try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
+                System.out.println("Connected to the database!");
+
+                // Step 3: Create a statement
+                try (Statement statement = connection.createStatement()) {
+
+                    // Step 4: Execute a query
+                    String query = "SELECT id, username FROM users";
+                    try (ResultSet resultSet = statement.executeQuery(query)) {
+
+                        // Step 5: Process the result set
+                        while (resultSet.next()) {
+                            int id = resultSet.getInt("id");
+                            String username = resultSet.getString("username");
+
+                            System.out.println("User ID: " + id + ", Username: " + username);
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
