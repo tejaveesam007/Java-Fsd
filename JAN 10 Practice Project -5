@@ -1,0 +1,74 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JdbcDatabaseOperations {
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/";
+    private static final String JDBC_USER = "your_username";
+    private static final String JDBC_PASSWORD = "your_password";
+
+    public static void main(String[] args) {
+        try {
+            // Load the JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Create a connection to the MySQL server
+            try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
+                System.out.println("Connected to the MySQL server!");
+
+                // Create a new database
+                createDatabase(connection, "new_database");
+
+                // Select the created database
+                selectDatabase(connection, "new_database");
+
+                // Drop the database
+                dropDatabase(connection, "new_database");
+            } catch (SQLException e) {
+                handleSQLException(e);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void createDatabase(Connection connection, String databaseName) {
+        try (Statement statement = connection.createStatement()) {
+            // Create a new database
+            String createDatabaseQuery = "CREATE DATABASE " + databaseName;
+            statement.executeUpdate(createDatabaseQuery);
+            System.out.println("Database '" + databaseName + "' created successfully!");
+        } catch (SQLException e) {
+            handleSQLException(e);
+        }
+    }
+
+    private static void selectDatabase(Connection connection, String databaseName) {
+        try (Statement statement = connection.createStatement()) {
+            // Select the created database
+            String useDatabaseQuery = "USE " + databaseName;
+            statement.executeUpdate(useDatabaseQuery);
+            System.out.println("Selected database: '" + databaseName + "'");
+        } catch (SQLException e) {
+            handleSQLException(e);
+        }
+    }
+
+    private static void dropDatabase(Connection connection, String databaseName) {
+        try (Statement statement = connection.createStatement()) {
+            // Drop the database
+            String dropDatabaseQuery = "DROP DATABASE " + databaseName;
+            statement.executeUpdate(dropDatabaseQuery);
+            System.out.println("Database '" + databaseName + "' dropped successfully!");
+        } catch (SQLException e) {
+            handleSQLException(e);
+        }
+    }
+
+    private static void handleSQLException(SQLException e) {
+        System.err.println("SQLException: " + e.getMessage());
+        System.err.println("SQLState: " + e.getSQLState());
+        System.err.println("VendorError: " + e.getErrorCode());
+    }
+}
