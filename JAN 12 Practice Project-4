@@ -1,1 +1,50 @@
+//adding log4j dependency
+<dependencies>
+    <!-- Other dependencies -->
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.x.x</version> <!-- Use the latest version -->
+    </dependency>
+</dependencies>
 
+
+
+//creating log4j configuration file
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.hibernate" level="debug" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>
+
+
+
+//configuring hibernate to use log4j
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <!-- Other configurations -->
+
+    <session-factory>
+        <!-- Other session factory configurations -->
+        
+        <!-- Log settings -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.use_sql_comments">true</property>
+        <property name="hibernate.generate_statistics">true</property>
+        <property name="hibernate.connection.provider_disables_autocommit">true</property>
+
+    </session-factory>
+</hibernate-configuration>
