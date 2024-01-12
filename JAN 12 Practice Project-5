@@ -1,0 +1,104 @@
+import java.util.List;
+import java.util.Set;
+import java.util.Map;
+
+public class Student {
+    private int studentId;
+    private String studentName;
+    private List<String> coursesList;
+    private Set<String> coursesSet;
+    private Map<Integer, String> coursesMap;
+
+    // Constructors, getters, and setters
+}
+
+
+
+//creating xml mapping file
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="your_package">
+
+    <class name="Student" table="students">
+        <id name="studentId" column="student_id">
+            <generator class="native"/>
+        </id>
+
+        <property name="studentName" column="student_name"/>
+
+        <!-- List mapping -->
+        <list name="coursesList" table="student_courses" cascade="all">
+            <key column="student_id"/>
+            <index column="course_index"/>
+            <element column="course_name" type="string"/>
+        </list>
+
+        <!-- Set mapping -->
+        <set name="coursesSet" table="student_courses" cascade="all">
+            <key column="student_id"/>
+            <element column="course_name" type="string"/>
+        </set>
+
+        <!-- Bag mapping -->
+        <bag name="coursesBag" table="student_courses" cascade="all">
+            <key column="student_id"/>
+            <element column="course_name" type="string"/>
+        </bag>
+
+        <!-- Map mapping -->
+        <map name="coursesMap" table="student_courses" cascade="all">
+            <key column="student_id"/>
+            <index column="course_id" type="integer"/>
+            <element column="course_name" type="string"/>
+        </map>
+
+    </class>
+</hibernate-mapping>
+
+
+
+//creating hibernate configuration
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <!-- Other configurations -->
+
+    <session-factory>
+        <!-- Other session factory configurations -->
+
+        <!-- Mapping files -->
+        <mapping resource="your_package/student.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>
+
+
+
+//testing the mapping
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import your_package.Student;
+
+public class HibernateTest {
+    public static void main(String[] args) {
+        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();
+             Session session = factory.getCurrentSession()) {
+
+            session.beginTransaction();
+
+            // Create a student with courses
+            Student student = new Student();
+            student.setStudentName("John Doe");
+            student.getCoursesList().add("Math");
+            student.getCoursesList().add("History");
+            student.getCoursesSet().add("Physics");
+            student.getCoursesBag().add("Chemistry");
+            student.getCoursesMap().put(1, "Biology");
+            student.getCoursesMap().put(2, "English");
+
+            // Save the student
+            session.save(student);
+
+            session.getTransaction().commit();
+        }
+    }
+}
