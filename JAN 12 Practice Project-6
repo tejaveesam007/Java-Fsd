@@ -1,0 +1,86 @@
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "students")
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_id")
+    private int studentId;
+
+    @Column(name = "student_name")
+    private String studentName;
+
+    // Lazy-loaded collection
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private List<Course> coursesList;
+
+    // Constructors, getters, and setters
+}
+
+
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "courses")
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "course_id")
+    private int courseId;
+
+    @Column(name = "course_name")
+    private String courseName;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+    // Constructors, getters, and setters
+}
+
+
+
+//configuring hibernate configuration file
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <!-- Other configurations -->
+
+    <session-factory>
+        <!-- Other session factory configurations -->
+
+        <!-- Mapping files -->
+        <mapping class="your_package.Student"/>
+        <mapping class="your_package.Course"/>
+    </session-factory>
+</hibernate-configuration>
+
+
+
+//test lazy loading
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import your_package.Student;
+
+public class HibernateTest {
+    public static void main(String[] args) {
+        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();
+             Session session = factory.getCurrentSession()) {
+
+            session.beginTransaction();
+
+            // Load a student (assuming studentId 1 exists in the database)
+            Student student = session.get(Student.class, 1);
+
+            // Accessing the lazy-loaded collection triggers a database query
+            System.out.println("Student Name: " + student.getStudentName());
+            System.out.println("Courses List Size: " + student.getCoursesList().size());
+
+            session.getTransaction().commit();
+        }
+    }
+}
