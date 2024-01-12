@@ -1,0 +1,144 @@
+<dependencies>
+    <!-- Spring dependencies -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>5.x.x</version> <!-- Use the latest version -->
+    </dependency>
+    
+    <!-- Hibernate dependencies -->
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>5.x.x</version> <!-- Use the latest version -->
+    </dependency>
+    
+    <!-- Database driver and connection pool (example with MySQL) -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.x.x</version> <!-- Use the latest version -->
+    </dependency>
+    
+    <!-- Other dependencies as needed -->
+</dependencies>
+
+
+
+//configuring database and hibernate prpperties
+# Database properties
+spring.datasource.url=jdbc:mysql://localhost:3306/your_database
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+
+# Hibernate properties
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.hibernate.ddl-auto=update
+
+
+
+//creating entity classes
+import javax.persistence.*;
+
+@Entity
+@Table(name = "students")
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_id")
+    private int studentId;
+
+    @Column(name = "student_name")
+    private String studentName;
+
+    // Constructors, getters, and setters
+}
+
+
+
+//configuring hibernate in spring
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Configuration
+@EnableTransactionManagement
+public class HibernateConfig {
+
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setPackagesToScan("your_package"); // Package where your entities are located
+        sessionFactory.setHibernateProperties(hibernateProperties());
+        return sessionFactory;
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/your_database");
+        dataSource.setUsername("your_username");
+        dataSource.setPassword("your_password");
+        return dataSource;
+    }
+
+    @Bean
+    public HibernateTransactionManager transactionManager() {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactory().getObject());
+        return transactionManager;
+    }
+
+    private Properties hibernateProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        return properties;
+    }
+}
+
+
+
+//creating a service for database operations
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class StudentService {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @Transactional
+    public void saveStudent(Student student) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(student);
+    }
+}
+
+
+
+//testing the integration
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class MainApp {
+    public static void main(String[] args) {
+        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(HibernateConfig.class)) {
+            StudentService studentService = context.getBean(StudentService.class);
+
+            // Create a student
+            Student student = new Student();
+            student.setStudentName("John Doe");
+
+            // Save the student using the service
+            studentService.saveStudent(student);
+        }
+    }
+}
