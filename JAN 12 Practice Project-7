@@ -1,0 +1,89 @@
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class Address {
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "zip_code")
+    private String zipCode;
+
+    // Constructors, getters, and setters
+}
+
+
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "students")
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_id")
+    private int studentId;
+
+    @Column(name = "student_name")
+    private String studentName;
+
+    // Component mapping
+    @Embedded
+    private Address address;
+
+    // Constructors, getters, and setters
+}
+
+
+
+//configuring hibernate cinfiguration file
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <!-- Other configurations -->
+
+    <session-factory>
+        <!-- Other session factory configurations -->
+
+        <!-- Mapping files -->
+        <mapping class="your_package.Student"/>
+    </session-factory>
+</hibernate-configuration>
+
+
+
+//testing component mapping
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import your_package.Student;
+import your_package.Address;
+
+public class HibernateTest {
+    public static void main(String[] args) {
+        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();
+             Session session = factory.getCurrentSession()) {
+
+            session.beginTransaction();
+
+            // Create a student with an address
+            Student student = new Student();
+            student.setStudentName("John Doe");
+
+            Address address = new Address();
+            address.setStreet("123 Main St");
+            address.setCity("Anytown");
+            address.setZipCode("12345");
+
+            student.setAddress(address);
+
+            // Save the student
+            session.save(student);
+
+            session.getTransaction().commit();
+        }
+    }
+}
