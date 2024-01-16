@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My First JSP Page</title>
+</head>
+<body>
+    <h1>Hello, JSP World!</h1>
+</body>
+</html>
