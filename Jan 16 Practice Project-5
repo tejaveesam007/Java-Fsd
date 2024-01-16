@@ -1,0 +1,74 @@
+//creating a jsp file(index.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSP Login Demo</title>
+</head>
+<body>
+
+<h1>Welcome to the JSP Login Demo</h1>
+<a href="login.jsp">Login</a>
+
+</body>
+</html>
+
+
+
+//creating a jsp file(login.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body>
+
+<h2>Login</h2>
+<form action="dashboard.jsp" method="post">
+    Username: <input type="text" name="username" required><br>
+    Password: <input type="password" name="password" required><br>
+    <input type="submit" value="Login">
+</form>
+
+</body>
+</html>
+
+
+
+//creating a jsp file(dashboard.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+
+<h2>Welcome to the Dashboard</h2>
+<p>You are logged in!</p>
+<a href="logout.jsp">Logout</a>
+
+</body>
+</html>
+
+
+
+//creating a jsp file(logout.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page session="false" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logout</title>
+</head>
+<body>
+
+<h2>Logout</h2>
+<% 
+   session.invalidate();
+%>
+<p>You have been logged out. <a href="index.jsp">Go back to the home page</a>.</p>
+
+</body>
+</html>
