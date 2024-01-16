@@ -1,0 +1,31 @@
+//creating a jsp file(index.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSP Directives Demo</title>
+</head>
+<body>
+
+<h1>JSP Directives Demo</h1>
+
+<%-- Your code using JSP directives goes here --%>
+
+</body>
+</html>
+
+
+
+//creating a jsp file(included.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Included JSP Page</title>
+</head>
+<body>
+
+<p>This content is included in index.jsp using JSP include directive.</p>
+
+</body>
+</html>
