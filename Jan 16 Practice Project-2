@@ -1,0 +1,51 @@
+//creating a jsp file
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSP Implicit Objects Demo</title>
+</head>
+<body>
+
+<h1>JSP Implicit Objects Demo</h1>
+
+<%-- Your code using JSP implicit objects goes here --%>
+
+</body>
+</html>
+
+
+
+//creating a jsp file(responde-redirect.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSP Response Redirect Demo</title>
+</head>
+<body>
+
+<h1>JSP Response Redirect Demo</h1>
+
+<%-- Your code for response redirection goes here --%>
+
+</body>
+</html>
+
+
+
+//creating a jsp file(handle-error.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSP Error Handling Demo</title>
+</head>
+<body>
+
+<h1>JSP Error Handling Demo</h1>
+
+<%-- Your code for error handling goes here --%>
+
+</body>
+</html>
