@@ -1,0 +1,97 @@
+//creating a jsp file(index.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSP Action Tags Demo</title>
+</head>
+<body>
+
+<h1>JSP Action Tags Demo</h1>
+
+<%-- Your code using JSP action tags goes here --%>
+
+</body>
+</html>
+
+
+
+//creating a jsp file(forward.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forward JSP Page</title>
+</head>
+<body>
+
+<h2>This is the forward.jsp page.</h2>
+
+<%-- Your code for using JSP forward action tag goes here --%>
+
+</body>
+</html>
+
+
+
+//creating a jsp file(forwarded.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forwarded JSP Page</title>
+</head>
+<body>
+
+<h2>This is the forwarded.jsp page.</h2>
+
+<%-- Your code for the content of forwarded.jsp goes here --%>
+
+</body>
+</html>
+
+
+
+//creating a jsp file(showbean.jsp)
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Show Bean JSP Page</title>
+</head>
+<body>
+
+<h2>This is the showbean.jsp page.</h2>
+
+<%-- Your code for using JSP useBean action tag goes here --%>
+
+</body>
+</html>
+
+
+
+//creating a bean class(productbean.java)
+package com.example.beans;
+
+public class ProductBean {
+    private String productName;
+    private double price;
+
+    // Getters and setters
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+}
