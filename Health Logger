@@ -1,0 +1,90 @@
+// Patient.java
+public class Patient {
+    private int id;
+    private String name;
+    private int age;
+    private String gender;
+
+    // Constructors, getters, and setters
+}
+
+// Vitals.java
+public class Vitals {
+    private int id;
+    private int patientId;
+    private String timestamp;
+    private int bpHigh;
+    private int bpLow;
+    private int saturation;
+    private int spo2;
+
+    // Constructors, getters, and setters
+}
+
+// PatientDAO.java
+import java.util.List;
+
+public interface PatientDAO {
+    List<Patient> getAllPatients();
+    Patient getPatientById(int id);
+    void addPatient(Patient patient);
+    void updatePatient(Patient patient);
+    void deletePatient(int id);
+}
+
+// VitalsDAO.java
+import java.util.List;
+
+public interface VitalsDAO {
+    List<Vitals> getVitalsByPatientId(int patientId);
+    void addVitals(Vitals vitals);
+}
+
+// PatientDAOImpl.java
+// VitalsDAOImpl.java
+// Implement the PatientDAO and VitalsDAO interfaces using JDBC.
+
+// PatientServlet.java
+// VitalsServlet.java
+// Implement Servlets to handle HTTP requests and interact with DAOs.
+
+<!-- addPatientForm.html -->
+<form id="addPatientForm">
+    <!-- Patient details fields -->
+    <button type="button" onclick="addPatient()">Add Patient</button>
+</form>
+
+<!-- addVitalsForm.html -->
+<form id="addVitalsForm">
+    <!-- Vitals recording fields -->
+    <button type="button" onclick="addVitals()">Record Vitals</button>
+</form>
+
+// script.js
+function addPatient() {
+    // Fetch patient details from the form and send to backend using AJAX
+}
+
+function addVitals() {
+    // Fetch vitals details from the form and send to backend using AJAX
+}
+
+-- Create a patients table
+CREATE TABLE patients (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    age INT,
+    gender VARCHAR(10)
+);
+
+-- Create a vitals table
+CREATE TABLE vitals (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    patient_id INT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    bp_high INT,
+    bp_low INT,
+    saturation INT,
+    spo2 INT,
+    FOREIGN KEY (patient_id) REFERENCES patients(id)
+);
