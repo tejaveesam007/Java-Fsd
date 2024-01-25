@@ -1,0 +1,62 @@
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+public class JdbcSpringIntegrationDemo {
+
+    public static void main(String[] args) {
+        // Initialize DataSource (using DriverManagerDataSource)
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/your_database");
+        dataSource.setUsername("your_username");
+        dataSource.setPassword("your_password");
+
+        // Create JdbcTemplate using DataSource
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        // Create a table (for demonstration purposes)
+        createTable(jdbcTemplate);
+
+        // Insert data into the table
+        insertData(jdbcTemplate);
+
+        // Fetch and display data from the table
+        fetchData(jdbcTemplate);
+    }
+
+    private static void createTable(JdbcTemplate jdbcTemplate) {
+        // SQL to create a simple table
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS employee (id INT PRIMARY KEY, name VARCHAR(255))";
+
+        // Execute the SQL statement
+        jdbcTemplate.execute(createTableSQL);
+
+        System.out.println("Table created successfully.");
+    }
+
+    private static void insertData(JdbcTemplate jdbcTemplate) {
+        // SQL to insert data into the table
+        String insertDataSQL = "INSERT INTO employee (id, name) VALUES (?, ?)";
+
+        // Execute the SQL statement with parameters
+        jdbcTemplate.update(insertDataSQL, 1, "John Doe");
+        jdbcTemplate.update(insertDataSQL, 2, "Jane Smith");
+
+        System.out.println("Data inserted successfully.");
+    }
+
+    private static void fetchData(JdbcTemplate jdbcTemplate) {
+        // SQL to fetch data from the table
+        String fetchDataSQL = "SELECT * FROM employee";
+
+        // Use query method to fetch data and display it
+        jdbcTemplate.query(fetchDataSQL, (rs, rowNum) -> {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            System.out.println("Employee ID: " + id + ", Name: " + name);
+            return null; // Unused value
+        });
+
+        System.out.println("Data fetched successfully.");
+    }
+}
