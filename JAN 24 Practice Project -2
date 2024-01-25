@@ -1,0 +1,95 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+// Custom event class
+class CustomEvent extends java.util.EventObject {
+    public CustomEvent(Object source) {
+        super(source);
+    }
+}
+
+// Custom listener interface
+interface CustomEventListener extends java.util.EventListener {
+    void customEventOccurred(CustomEvent evt);
+}
+
+// Custom button that generates custom events
+class CustomButton extends JButton {
+    // List of custom event listeners
+    private java.util.List<CustomEventListener> customEventListeners = new java.util.ArrayList<>();
+
+    public CustomButton(String text) {
+        super(text);
+
+        // Add ActionListener to handle default events (e.g., button click)
+        this.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Default Event Handler: Button Clicked!");
+            }
+        });
+    }
+
+    // Method to add custom event listeners
+    public void addCustomEventListener(CustomEventListener listener) {
+        customEventListeners.add(listener);
+    }
+
+    // Method to remove custom event listeners
+    public void removeCustomEventListener(CustomEventListener listener) {
+        customEventListeners.remove(listener);
+    }
+
+    // Method to notify custom event listeners
+    private void fireCustomEvent() {
+        CustomEvent customEvent = new CustomEvent(this);
+
+        for (CustomEventListener listener : customEventListeners) {
+            listener.customEventOccurred(customEvent);
+        }
+    }
+
+    // Override the default processEvent method to fire custom events
+    @Override
+    protected void processEvent(AWTEvent e) {
+        if (e.getID() == ActionEvent.ACTION_EVENT) {
+            fireCustomEvent();
+        }
+        super.processEvent(e);
+    }
+}
+
+// Custom listener implementation
+class CustomListener implements CustomEventListener {
+    @Override
+    public void customEventOccurred(CustomEvent evt) {
+        JOptionPane.showMessageDialog(null, "Custom Event Handler: CustomButton Clicked!");
+    }
+}
+
+public class EventHandlingDemo {
+    public static void main(String[] args) {
+        // Create a JFrame
+        JFrame frame = new JFrame("Event Handling Demo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+
+        // Create a CustomButton
+        CustomButton customButton = new CustomButton("Click Me!");
+
+        // Create a CustomListener
+        CustomListener customListener = new CustomListener();
+
+        // Add the CustomListener to the CustomButton
+        customButton.addCustomEventListener(customListener);
+
+        // Add the CustomButton to the JFrame
+        frame.getContentPane().setLayout(new FlowLayout());
+        frame.getContentPane().add(customButton);
+
+        // Make the JFrame visible
+        frame.setVisible(true);
+    }
+}
