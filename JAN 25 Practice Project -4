@@ -1,0 +1,27 @@
+keytool -genkeypair -alias localhost -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore keystore.p12 -validity 3650
+
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class MainController {
+
+    @GetMapping("/")
+    public String home() {
+        return "index";
+    }
+}
+
+
+
+server.port=8443
+server.ssl.key-store=classpath:keystore.p12
+server.ssl.key-store-password=your_keystore_password
+server.ssl.keyStoreType=PKCS12
+server.ssl.keyAlias=localhost
+
+
+
+mvn clean install
